@@ -5,30 +5,29 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
 
-# 繪圖函數
+# Draw
 def drawPic():
     global r, g, b
 
-    # 清空圖像，以使得前後兩次繪制的圖像不會重疊
+    # Clean
     drawPic.f.clf()
     drawPic.a = drawPic.f.add_subplot(111)
     drawPic.a.grid(color='k', linestyle='-.')
     TestPID(Kp, Ki, Kd)
 
-    # 每次繪圖改變線條顏色用以區別
+    # When redraw change color
     color = ['b', 'r', 'y', 'g', 'grey', 'coral', 'darkgreen', 'c', 'cyan', 'steelblue']
     drawPic.a.plot(PositionalXaxis, PositionalYaxis, color=color[np.random.randint(len(color))])  # 繪制圖形
     drawPic.canvas.draw()
-    #每次繪圖完畢清空x，y
+    #Clean
     PositionalXaxis.clear()
     PositionalYaxis.clear()
 
-# 測試PID程序
+# TestPID
 def TestPID(P, I, D):
     global PositionalXaxis, PositionalYaxis
     PositionalPid = PID.PositionalPID(P, I, D)
     for i in range(1, 500):
-        # 位置式
         PositionalPid.SetStepSignal(100.2)
         PositionalPid.SetInertiaTime(3, 0.1)
         PositionalYaxis.append(PositionalPid.SystemOutput)
